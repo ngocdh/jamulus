@@ -48,58 +48,21 @@ class CConnectDlg : public CBaseDlg, private Ui_CConnectDlgBase
     Q_OBJECT
 
 public:
-    CConnectDlg ( CClientSettings* pNSetP, const bool bNewShowCompleteRegList, QWidget* parent = nullptr );
-
-    void SetShowAllMusicians ( const bool bState ) { ShowAllMusicians ( bState ); }
-    bool GetShowAllMusicians() { return bShowAllMusicians; }
-
-    void SetServerList ( const CHostAddress& InetAddr, const CVector<CServerInfo>& vecServerInfo, const bool bIsReducedServerList = false );
-
-    void SetConnClientsList ( const CHostAddress& InetAddr, const CVector<CChannelInfo>& vecChanInfo );
-
-    void SetPingTimeAndNumClientsResult ( const CHostAddress& InetAddr, const int iPingTime, const int iNumClients );
-
-    bool    GetServerListItemWasChosen() const { return bServerListItemWasChosen; }
-    QString GetSelectedAddress() const { return strSelectedAddress; }
-    QString GetSelectedServerName() const { return strSelectedServerName; }
+    CConnectDlg ( CClient* pNCliP, CClientSettings*, QWidget* parent = nullptr );
 
 protected:
     virtual void showEvent ( QShowEvent* );
-    virtual void hideEvent ( QHideEvent* );
-
-    QTreeWidgetItem* FindListViewItem ( const CHostAddress& InetAddr );
-    QTreeWidgetItem* GetParentListViewItem ( QTreeWidgetItem* pItem );
-    void             DeleteAllListViewItemChilds ( QTreeWidgetItem* pItem );
-    void             UpdateListFilter();
-    void             ShowAllMusicians ( const bool bState );
-    void             RequestServerList();
-    void             EmitCLServerListPingMes ( const CHostAddress& CurServerAddress );
 
     CClientSettings* pSettings;
-
-    QTimer       TimerPing;
-    QTimer       TimerReRequestServList;
-    QTimer       TimerInitialSort;
-    CHostAddress CentralServerAddress;
+    CClient*         pClient;
     QString      strSelectedAddress;
     QString      strSelectedServerName;
-    bool         bShowCompleteRegList;
-    bool         bServerListReceived;
-    bool         bReducedServerListReceived;
-    bool         bServerListItemWasChosen;
-    bool         bListFilterWasActive;
-    bool         bShowAllMusicians;
+    
+    bool         bPracticeMode = false;
 
 public slots:
-    void OnServerListItemDoubleClicked ( QTreeWidgetItem* Item, int );
-    void OnServerAddrEditTextChanged ( const QString& );
-    void OnCentServAddrTypeChanged ( int iTypeIdx );
-    void OnFilterTextEdited ( const QString& ) { UpdateListFilter(); }
-    void OnExpandAllStateChanged ( int value ) { ShowAllMusicians ( value == Qt::Checked ); }
-    void OnCustomCentralServerAddrChanged();
     void OnConnectClicked();
-    void OnTimerPing();
-    void OnTimerReRequestServList();
+    void OnPracticeModeClicked();
 
 signals:
     void ReqServerListQuery ( CHostAddress InetAddr );

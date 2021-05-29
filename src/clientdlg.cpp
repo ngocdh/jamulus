@@ -42,7 +42,7 @@ CClientDlg::CClientDlg ( CClient*         pNCliP,
     eLastDesign ( GD_ORIGINAL ),         //          "
     ClientSettingsDlg ( pNCliP, pNSetP, parent ),
     ChatDlg ( parent ),
-    ConnectDlg ( pNSetP, bNewShowComplRegConnList, parent ),
+    ConnectDlg ( pNCliP, parent ),
     AnalyzerConsole ( pNCliP, parent )
 {
     setupUi ( this );
@@ -218,7 +218,7 @@ CClientDlg::CClientDlg ( CClient*         pNCliP,
     UpdateRevSelection();
 
     // init connect dialog
-    ConnectDlg.SetShowAllMusicians ( pSettings->bConnectDlgShowAllMusicians );
+    //ConnectDlg.SetShowAllMusicians ( pSettings->bConnectDlgShowAllMusicians );
 
     // set window title (with no clients connected -> "0")
     SetMyWindowTitle ( 0 );
@@ -478,10 +478,10 @@ CClientDlg::CClientDlg ( CClient*         pNCliP,
 
     QObject::connect ( &ClientSettingsDlg, &CClientSettingsDlg::AudioChannelsChanged, this, &CClientDlg::OnAudioChannelsChanged );
 
-    QObject::connect ( &ClientSettingsDlg,
+    /*QObject::connect ( &ClientSettingsDlg,
                        &CClientSettingsDlg::CustomCentralServerAddrChanged,
                        &ConnectDlg,
-                       &CConnectDlg::OnCustomCentralServerAddrChanged );
+                       &CConnectDlg::OnCustomCentralServerAddrChanged );*/
 
     QObject::connect ( &ClientSettingsDlg, &CClientSettingsDlg::NumMixerPanelRowsChanged, this, &CClientDlg::OnNumMixerPanelRowsChanged );
 
@@ -575,7 +575,7 @@ void CClientDlg::closeEvent ( QCloseEvent* Event )
     // make sure all current fader settings are applied to the settings struct
     MainMixerBoard->StoreAllFaderSettings();
 
-    pSettings->bConnectDlgShowAllMusicians = ConnectDlg.GetShowAllMusicians();
+    //pSettings->bConnectDlgShowAllMusicians = ConnectDlg.GetShowAllMusicians();
     pSettings->eChannelSortType            = MainMixerBoard->GetFaderSorting();
     pSettings->iNumMixerPanelRows          = MainMixerBoard->GetNumMixerPanelRows();
 
@@ -649,12 +649,12 @@ void CClientDlg::OnConnectDlgAccepted()
     if ( bConnectDlgWasShown )
     {
         // get the address from the connect dialog
-        QString strSelectedAddress = ConnectDlg.GetSelectedAddress();
+       // QString strSelectedAddress = ConnectDlg.GetSelectedAddress();
 
         // only store new host address in our data base if the address is
         // not empty and it was not a server list item (only the addresses
         // typed in manually are stored by definition)
-        if ( !strSelectedAddress.isEmpty() && !ConnectDlg.GetServerListItemWasChosen() )
+        /*if ( !strSelectedAddress.isEmpty() && !ConnectDlg.GetServerListItemWasChosen() )
         {
             // store new address at the top of the list, if the list was already
             // full, the last element is thrown out
@@ -699,7 +699,7 @@ void CClientDlg::OnConnectDlgAccepted()
         Connect ( strSelectedAddress, strMixerBoardLabel );
 
         // reset flag
-        bConnectDlgWasShown = false;
+        bConnectDlgWasShown = false;*/
     }
 }
 
@@ -1149,7 +1149,7 @@ void CClientDlg::OnSoundDeviceChanged ( QString strError )
 void CClientDlg::OnCLPingTimeWithNumClientsReceived ( CHostAddress InetAddr, int iPingTime, int iNumClients )
 {
     // update connection dialog server list
-    ConnectDlg.SetPingTimeAndNumClientsResult ( InetAddr, iPingTime, iNumClients );
+    //ConnectDlg.SetPingTimeAndNumClientsResult ( InetAddr, iPingTime, iNumClients );
 }
 
 void CClientDlg::Connect ( const QString& strSelectedAddress, const QString& strMixerBoardLabel )
