@@ -12,7 +12,9 @@ class QmlConnectDlg : public QObject
 
 public:
     QmlConnectDlg( CClient* );
-    CClient * Client;
+
+private:
+    CClient * pClient;
 
 public slots:
     void connect( const QString &serveraddr );

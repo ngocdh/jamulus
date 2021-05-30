@@ -1,15 +1,15 @@
 #include "qmlconnectdlg.h"
 
-QmlConnectDlg::QmlConnectDlg( CClient* pClient )
+QmlConnectDlg::QmlConnectDlg( CClient* pClnt )
 {
-    Client = pClient;
+    pClient = pClnt;
 
 }
 
 void QmlConnectDlg::connect( const QString &serveraddr ){
 
-    if ( Client->IsConnected() )
-        Client->Stop();
-    Client->SetServerAddr( serveraddr );
-    Client->Start();
+    if ( pClient->IsConnected() )
+        pClient->Stop();
+    pClient->SetServerAddr( serveraddr );
+    pClient->Start();
 }

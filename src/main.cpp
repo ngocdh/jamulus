@@ -45,6 +45,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include "qmlconnectdlg.h"
+#include "qmlmixerdlg.h"
 #include <QQmlContext>
 //#endif
 
@@ -66,15 +67,18 @@ int main ( int argc, char** argv )
     }, Qt::QueuedConnection);
 
     CClient Client ( DEFAULT_PORT_NUMBER, DEFAULT_QOS_NUMBER, "", "", false, "iOScOnly", false );
-    Client.SetEnableOPUS64( true );
-    Client.SetSndCrdPrefFrameSizeFactor( 128 );
-    Client.SetAudioQuality( AQ_HIGH );
-    Client.SetAudioChannels( CC_STEREO );
-    Client.SetMuteOutStream( false );
-    Client.SetDoAutoSockBufSize( true );
+    Client.SetEnableOPUS64 ( true );
+    Client.SetSndCrdPrefFrameSizeFactor ( 128 );
+    Client.SetAudioQuality ( AQ_HIGH );
+    Client.SetAudioChannels ( CC_STEREO );
+    Client.SetMuteOutStream ( false );
+    Client.SetDoAutoSockBufSize ( true );
 
-    QmlConnectDlg * connectDlg = new QmlConnectDlg( &Client );
-    engine.rootContext()->setContextProperty("connectDlg", connectDlg);
+    QmlConnectDlg * connectDlg = new QmlConnectDlg ( &Client );
+    engine.rootContext()->setContextProperty ("connectDlg", connectDlg );
+
+    QmlMixerDlg * mixerDlg = new QmlMixerDlg ( &Client );
+    engine.rootContext()->setContextProperty ("mixerDlg", mixerDlg );
 
     engine.load(url);
     return app.exec();

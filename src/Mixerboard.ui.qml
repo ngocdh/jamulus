@@ -31,12 +31,8 @@ Page {
         x: 238
         y: 233
         text: qsTr("Practice Mode")
-        //onClicked: Qt.
+        onClicked: mixerDlg.PracticeMode()
     }
 }
 
-/*##^##
-Designer {
-    D{i:0;autoSize:true;height:480;width:640}
-}
-##^##*/
+
