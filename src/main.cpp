@@ -33,11 +33,14 @@
 int main ( int argc, char** argv )
 {
     QApplication* qiApp = new QApplication ( argc, argv );
-    CClient Client ( DEFAULT_PORT_NUMBER, DEFAULT_QOS_NUMBER, "10.55.107.104", "", false, "iOScOnly", false );
+    CClient Client ( DEFAULT_PORT_NUMBER, DEFAULT_QOS_NUMBER, "", "", false, "SuperSimpleClient", false );
     Client.SetEnableOPUS64(true);
-    Client.SetSndCrdPrefFrameSizeFactor(64);
+    Client.SetSndCrdPrefFrameSizeFactor(128);
     Client.SetMuteOutStream(false);
     Client.SetDoAutoSockBufSize(true);
+    Client.SetAudioChannels(CC_STEREO);
+    
+    Client.SetAudioQuality( AQ_HIGH );
     
     CClientSettings Settings ( &Client, "jamulussettings.ini" );
     
