@@ -399,6 +399,7 @@ HEADERS += src/buffer.h \
     src/client.h \
     src/global.h \
     src/protocol.h \
+    src/qmlconnectdlg.h \
     src/recorder/jamcontroller.h \
     src/threadpool.h \
     src/server.h \
@@ -501,6 +502,7 @@ SOURCES += src/buffer.cpp \
     src/client.cpp \
     src/main.cpp \
     src/protocol.cpp \
+    src/qmlconnectdlg.cpp \
     src/recorder/jamcontroller.cpp \
     src/server.cpp \
     src/serverlist.cpp \

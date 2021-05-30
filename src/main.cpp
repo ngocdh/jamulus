@@ -44,6 +44,8 @@
 //#if defined( ANDROID ) or defined( Q_OS_IOS )
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include "qmlconnectdlg.h"
+#include <QQmlContext>
 //#endif
 
 // Implementation **************************************************************
@@ -62,6 +64,10 @@ int main ( int argc, char** argv )
         if (!obj && url == objUrl)
             QCoreApplication::exit(-1);
     }, Qt::QueuedConnection);
+
+    QmlConnectDlg * connectDlg = new QmlConnectDlg();
+    engine.rootContext()->setContextProperty("connectDlg", connectDlg);
+
     engine.load(url);
     return app.exec();
 //#endif

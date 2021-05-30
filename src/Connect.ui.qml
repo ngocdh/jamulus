@@ -26,7 +26,7 @@ Page {
     }
 
     TextField {
-        id: textField
+        id: edtServerAddress
         x: 6
         y: 233
         placeholderText: qsTr("Server Address")
@@ -37,6 +37,6 @@ Page {
         x: 238
         y: 233
         text: qsTr("Connect")
-        //onClicked: Qt.
+        onClicked: connectDlg.connect("10.55.107.104")
     }
 }
