@@ -41,10 +41,30 @@
 #    include "mac/activity.h"
 #endif
 
+//#if defined( ANDROID ) or defined( Q_OS_IOS )
+#include <QGuiApplication>
+#include <QQmlApplicationEngine>
+//#endif
+
 // Implementation **************************************************************
 
 int main ( int argc, char** argv )
 {
+
+//#if defined( ANDROID ) or defined( Q_OS_IOS )
+    //NGOCDH - START
+    QGuiApplication app(argc, argv);
+
+    QQmlApplicationEngine engine;
+    const QUrl url(QStringLiteral("qrc:/main.qml"));
+    QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
+                     &app, [url](QObject *obj, const QUrl &objUrl) {
+        if (!obj && url == objUrl)
+            QCoreApplication::exit(-1);
+    }, Qt::QueuedConnection);
+    engine.load(url);
+    return app.exec();
+//#endif
 
     QString        strArgument;
     double         rDbleArgument;
