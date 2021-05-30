@@ -26,7 +26,8 @@ CONFIG += qt \
 
 QT += network \
     xml \
-    concurrent
+    concurrent \
+    qml
 
 contains(CONFIG, "headless") {
     message(Headless mode activated.)
