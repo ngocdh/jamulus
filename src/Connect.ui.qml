@@ -24,4 +24,19 @@ Page {
         text: qsTr("You are on Page connect.")
         anchors.centerIn: parent
     }
+
+    TextField {
+        id: textField
+        x: 6
+        y: 233
+        placeholderText: qsTr("Server Address")
+    }
+
+    Button {
+        id: button
+        x: 238
+        y: 233
+        text: qsTr("Connect")
+        //onClicked: Qt.
+    }
 }

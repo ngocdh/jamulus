@@ -338,7 +338,8 @@
     </qresource>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>Connect.qml</file>
-        <file>Profile.qml</file>
+        <file>Connect.ui.qml</file>
+        <file>Profile.ui.qml</file>
+        <file>Mixerboard.ui.qml</file>
     </qresource>
 </RCC>

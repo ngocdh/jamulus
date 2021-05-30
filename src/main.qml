@@ -2,6 +2,11 @@ import QtQuick 2.12
 import QtQuick.Controls 2.5
 
 
+import QtQuick.Controls.Styles.Flat 1.0 as Flat
+import QtQuick.Extras 1.4
+import QtQuick.Extras.Private 1.0
+
+
 ApplicationWindow {
     width: 640
     height: 480
@@ -21,11 +26,11 @@ ApplicationWindow {
 
         Profile {
         }
-/*
-        Mixer {
+
+        Mixerboard {
         }
 
-        Settings {
+/*        Settings {
         }
 
         Advanced {
@@ -45,10 +50,10 @@ ApplicationWindow {
         TabButton {
             text: qsTr("Profile")
         }
-/*        TabButton {
+        TabButton {
             text: qsTr("Mixer")
         }
-        TabButton {
+/*        TabButton {
             text: qsTr("Settings")
         }
         TabButton {
