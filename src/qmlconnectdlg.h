@@ -11,10 +11,11 @@ class QmlConnectDlg : public QObject
     Q_OBJECT
 
 public:
-    QmlConnectDlg();
+    QmlConnectDlg( CClient* );
+    CClient * Client;
 
 public slots:
-    void connect(const QString &serveraddr);
+    void connect( const QString &serveraddr );
 };
 
 #endif // QMLCONNECTDLG_H
