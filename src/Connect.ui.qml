@@ -37,6 +37,6 @@ Page {
         x: 238
         y: 233
         text: qsTr("Connect")
-        onClicked: connectDlg.connect("10.55.107.104")
+        onClicked: connectDlg.connect(edtServerAddress.text)
     }
 }
