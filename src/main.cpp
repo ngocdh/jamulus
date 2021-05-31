@@ -55,7 +55,10 @@ int main ( int argc, char** argv )
 {
 
 //#if defined( ANDROID ) or defined( Q_OS_IOS )
-    //NGOCDH - START
+    //NGOCDH - QML POC BEGIN
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+#endif
     QGuiApplication app(argc, argv);
 
     QQmlApplicationEngine engine;
@@ -80,9 +83,25 @@ int main ( int argc, char** argv )
     QmlMixerDlg * mixerDlg = new QmlMixerDlg ( &Client );
     engine.rootContext()->setContextProperty ("mixerDlg", mixerDlg );
 
+#ifdef ANDROID
+    // special Android coded needed for record audio permission handling
+    auto result = QtAndroid::checkPermission ( QString ( "android.permission.RECORD_AUDIO" ) );
+
+    if ( result == QtAndroid::PermissionResult::Denied )
+    {
+        QtAndroid::PermissionResultMap resultHash = QtAndroid::requestPermissionsSync ( QStringList ( { "android.permission.RECORD_AUDIO" } ) );
+
+        if ( resultHash["android.permission.RECORD_AUDIO"] == QtAndroid::PermissionResult::Denied )
+        {
+            return 0;
+        }
+    }
+#endif
+
     engine.load(url);
     return app.exec();
 //#endif
+    //NGOCDH - QML POC END
 
     QString        strArgument;
     double         rDbleArgument;

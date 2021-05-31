@@ -341,5 +341,6 @@
         <file>Connect.ui.qml</file>
         <file>Profile.ui.qml</file>
         <file>Mixerboard.ui.qml</file>
+        <file>qtquickcontrols2.conf</file>
     </qresource>
 </RCC>
