@@ -46,7 +46,7 @@ ApplicationWindow {
             text: qsTr("Mixer")
         }
         TabButton {
-            text: qsTr("Profile (Not working)")
+            text: qsTr("Profile - To be implemented")
         }
 /*        TabButton {
             text: qsTr("Settings")

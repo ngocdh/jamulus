@@ -85,13 +85,13 @@ int main ( int argc, char** argv )
 
 #ifdef ANDROID
     // special Android coded needed for record audio permission handling
-    auto result = QtAndroid::checkPermission ( QString ( "android.permission.RECORD_AUDIO" ) );
+    auto androidaudiopermission = QtAndroid::checkPermission ( QString ( "android.permission.RECORD_AUDIO" ) );
 
-    if ( result == QtAndroid::PermissionResult::Denied )
+    if ( androidaudiopermission == QtAndroid::PermissionResult::Denied )
     {
-        QtAndroid::PermissionResultMap resultHash = QtAndroid::requestPermissionsSync ( QStringList ( { "android.permission.RECORD_AUDIO" } ) );
+        QtAndroid::PermissionResultMap resultHash1 = QtAndroid::requestPermissionsSync ( QStringList ( { "android.permission.RECORD_AUDIO" } ) );
 
-        if ( resultHash["android.permission.RECORD_AUDIO"] == QtAndroid::PermissionResult::Denied )
+        if ( resultHash1["android.permission.RECORD_AUDIO"] == QtAndroid::PermissionResult::Denied )
         {
             return 0;
         }
