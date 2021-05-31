@@ -33,13 +33,6 @@ Page {
         placeholderText: qsTr("Server Address")
         style: TextFieldStyle {
             textColor: "black"
-            background: Rectangle {
-                radius: 2
-                implicitWidth: 100
-                implicitHeight: 24
-                border.color: "#333"
-                border.width: 1
-            }
         }
     }
 
