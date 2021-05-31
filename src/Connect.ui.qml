@@ -8,6 +8,7 @@ import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles.Flat 1.0 as Flat
 import QtQuick.Extras 1.4
 import QtQuick.Extras.Private 1.0
+import QtQuick.Controls.Styles 1.4
 
 
 Page {
@@ -30,6 +31,16 @@ Page {
         x: 6
         y: 233
         placeholderText: qsTr("Server Address")
+        style: TextFieldStyle {
+            textColor: "black"
+            background: Rectangle {
+                radius: 2
+                implicitWidth: 100
+                implicitHeight: 24
+                border.color: "#333"
+                border.width: 1
+            }
+        }
     }
 
     Button {
