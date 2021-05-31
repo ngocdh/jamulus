@@ -40,7 +40,6 @@
 #    include <QDateTime>
 #    include <QDesktopServices>
 #    include <QKeyEvent>
-#    include "ui_aboutdlgbase.h"
 #endif
 #include <QFile>
 #include <QDirIterator>
