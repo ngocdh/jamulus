@@ -25,7 +25,7 @@
 #include <QCoreApplication>
 #include <QDir>
 #include "global.h"
-#ifndef HEADLESS
+#if !defined ( HEADLESS ) and !defined (ANDROID ) and !defined( Q_OS_IOS )
 #    include <QApplication>
 #    include <QMessageBox>
 #    include "clientdlg.h"
@@ -41,20 +41,20 @@
 #    include "mac/activity.h"
 #endif
 
-//#if defined( ANDROID ) or defined( Q_OS_IOS )
+#if defined( ANDROID ) or defined( Q_OS_IOS )
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include "qmlconnectdlg.h"
 #include "qmlmixerdlg.h"
 #include <QQmlContext>
-//#endif
+#endif
 
 // Implementation **************************************************************
 
 int main ( int argc, char** argv )
 {
 
-//#if defined( ANDROID ) or defined( Q_OS_IOS )
+#if defined( ANDROID ) or defined( Q_OS_IOS )
     //NGOCDH - QML POC BEGIN
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
@@ -69,7 +69,7 @@ int main ( int argc, char** argv )
             QCoreApplication::exit(-1);
     }, Qt::QueuedConnection);
 
-    CClient Client ( DEFAULT_PORT_NUMBER, DEFAULT_QOS_NUMBER, "", "", false, "iOScOnly", false );
+    CClient Client ( DEFAULT_PORT_NUMBER, DEFAULT_QOS_NUMBER, "", "", false, "mobileClientOnly", false );
     Client.SetEnableOPUS64 ( true );
     Client.SetSndCrdPrefFrameSizeFactor ( 128 );
     Client.SetAudioQuality ( AQ_HIGH );
@@ -100,7 +100,7 @@ int main ( int argc, char** argv )
 
     engine.load(url);
     return app.exec();
-//#endif
+#else //Not iOS and Android
     //NGOCDH - QML POC END
 
     QString        strArgument;
@@ -782,6 +782,7 @@ int main ( int argc, char** argv )
 #endif
 
     return 0;
+#endif //not IOS and ANDROID
 }
 
 /******************************************************************************\
