@@ -8,8 +8,13 @@ QmlConnectDlg::QmlConnectDlg( CClient* pClnt )
 
 void QmlConnectDlg::connect( const QString &serveraddr ){
 
-    if ( pClient->IsConnected() )
+    if ( pClient->IsRunning() )
+    {
         pClient->Stop();
+        return;
+    }
+
     pClient->SetServerAddr( serveraddr );
-    pClient->Start();
+    pClient->ChannelInfo.strName = "qml"; //TODO - read from Profile page
+    pClient->Start();    
 }

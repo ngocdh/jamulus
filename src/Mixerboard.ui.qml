@@ -20,14 +20,27 @@ Page {
         padding: 10
     }
 
-    Label {
-        text: qsTr("You are on Page mixer.")
-        anchors.centerIn: parent
+    TextArea {
+        id:txtClientList
+        //width: 240
+        text: "Clients list";
     }
 
+    Button {
+        id: butRefresh
+        x: 0
+        y: 233
+        text: qsTr("Refresh")
+        onClicked: {
+            txtClientList.append( mixerDlg.sClientList );
+            mixerDlg.Refresh();
+            console.log("Refesh clicked");
+            console.log(mixerDlg.sClientList);
+        }
+    }
 
     Button {
-        id: button
+        id: butPracticeMode
         x: 238
         y: 233
         text: qsTr("Practice Mode")
