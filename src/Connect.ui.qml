@@ -5,9 +5,9 @@ import QtQml 2.14 as Qml
 import QtQuick 2.4
 import QtQuick.Layouts 1.0
 import QtQuick.Controls 1.4
-import QtQuick.Controls.Styles.Flat 1.0 as Flat
+/*import QtQuick.Controls.Styles.Flat 1.0 as Flat
 import QtQuick.Extras 1.4
-import QtQuick.Extras.Private 1.0
+import QtQuick.Extras.Private 1.0*/
 import QtQuick.Controls.Styles 1.4
 
 
@@ -37,10 +37,13 @@ Page {
     }
 
     Button {
-        id: button
+        id: butConnect
         x: 238
         y: 233
         text: qsTr("Connect")
-        onClicked: connectDlg.connect(edtServerAddress.text)
+        onClicked: {
+            butConnect.forceActiveFocus()
+            connectDlg.connect(edtServerAddress.text)
+        }
     }
 }
