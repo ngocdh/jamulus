@@ -4,7 +4,7 @@
 QmlMixerDlg::QmlMixerDlg( CClient* pClnt )
 {
     pClient = pClnt;
-    bPracticeMode = false;
+    bPracticeMode = true;
     sClientList = "";
 
     QObject::connect ( pClient, &CClient::ConClientListMesReceived, this, &QmlMixerDlg::OnConClientListMesReceived );

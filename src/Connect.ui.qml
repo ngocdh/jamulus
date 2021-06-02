@@ -19,16 +19,18 @@ Page {
         text: qsTr("Connect")
         font.pixelSize: Qt.application.font.pixelSize * 2
         padding: 10
+        color: "black"
     }
 
-    Label {
+    /*Label {
         text: qsTr("You are on Page connect.")
         anchors.centerIn: parent
-    }
+    }*/
 
     TextField {
         id: edtServerAddress
-        x: 6
+        //x: 6
+        anchors.left: parent.left
         y: 233
         placeholderText: qsTr("Server Address")
         style: TextFieldStyle {
@@ -38,12 +40,14 @@ Page {
 
     Button {
         id: butConnect
-        x: 238
+        //x: 238
         y: 233
         text: qsTr("Connect")
         onClicked: {
             butConnect.forceActiveFocus()
             connectDlg.connect(edtServerAddress.text)
         }
+        //enabled: edtServerAddress.length > 0
+        anchors.right: parent.right
     }
 }

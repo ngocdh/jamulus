@@ -57,24 +57,24 @@ int main ( int argc, char** argv )
 #if defined( ANDROID ) or defined( Q_OS_IOS )
     //NGOCDH - QML POC BEGIN
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
     QGuiApplication app(argc, argv);
 
     QQmlApplicationEngine engine;
-    const QUrl url(QStringLiteral("qrc:/main.qml"));
-    QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
-                     &app, [url](QObject *obj, const QUrl &objUrl) {
-        if (!obj && url == objUrl)
-            QCoreApplication::exit(-1);
-    }, Qt::QueuedConnection);
+    const QUrl url( QStringLiteral ( "qrc:/main.qml" ) );
+    QObject::connect ( &engine, &QQmlApplicationEngine::objectCreated, &app,
+                       [url](QObject *obj, const QUrl &objUrl )
+        {
+            if ( !obj && url == objUrl ) QCoreApplication::exit ( -1 );
+        }, Qt::QueuedConnection );
 
-    CClient Client ( DEFAULT_PORT_NUMBER, DEFAULT_QOS_NUMBER, "", "", false, "mobileClientOnly", false );
+    CClient Client ( DEFAULT_PORT_NUMBER, DEFAULT_QOS_NUMBER, "", "", false, "mobileClientOnly", true ); //mute me in my personal mix - no personal monitoring
     Client.SetEnableOPUS64 ( true );
     Client.SetSndCrdPrefFrameSizeFactor ( 128 );
     Client.SetAudioQuality ( AQ_HIGH );
     Client.SetAudioChannels ( CC_STEREO );
-    Client.SetMuteOutStream ( false );
+    Client.SetMuteOutStream ( true ); // Practice mode - no one can hear me
     Client.SetDoAutoSockBufSize ( true );
 
     QmlConnectDlg * connectDlg = new QmlConnectDlg ( &Client );

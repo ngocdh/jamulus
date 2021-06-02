@@ -18,6 +18,7 @@ Page {
         text: qsTr("Profile")
         font.pixelSize: Qt.application.font.pixelSize * 2
         padding: 10
+        color: "black"
     }
 
     Label {
@@ -26,7 +27,7 @@ Page {
     }
 
     TextField {
-        id: textField
+        id: edtName
         x: 26
         y: 4
         placeholderText: qsTr("Alias/Name")

@@ -18,6 +18,7 @@ Page {
         text: qsTr("Mixerboard")
         font.pixelSize: Qt.application.font.pixelSize * 2
         padding: 10
+        color: "black"
     }
 
     TextArea {
