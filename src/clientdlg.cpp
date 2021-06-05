@@ -42,7 +42,7 @@ CClientDlg::CClientDlg ( CClient*         pNCliP,
     eLastDesign ( GD_ORIGINAL ),         //          "
     ClientSettingsDlg ( pNCliP, pNSetP, parent ),
     ChatDlg ( parent ),
-    ConnectDlg ( pNCliP, parent ),
+    ConnectDlg ( pNCliP, pNSetP, parent ),
     AnalyzerConsole ( pNCliP, parent )
 {
     setupUi ( this );
