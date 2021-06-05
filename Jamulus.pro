@@ -172,6 +172,8 @@ win32 {
     OBJECTIVE_SOURCES += ios/ios_app_delegate.mm
     HEADERS += ios/ios_app_delegate.h
     HEADERS += ios/sound.h
+    QMAKE_BUNDLE_DATA += ios/jlaunchscreen.storyboard
+    OTHER_FILES += ios/jlaunchscreen.storyboard
     OBJECTIVE_SOURCES += ios/sound.mm
     QMAKE_TARGET_BUNDLE_PREFIX = com.jamulussoftware.jamulus
     QMAKE_APPLICATION_BUNDLE_NAME. = $$TARGET
