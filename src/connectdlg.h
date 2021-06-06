@@ -59,10 +59,24 @@ protected:
     QString      strSelectedServerName;
     
     bool         bPracticeMode = false;
+    
+    CVector<CChannelInfo> vChanInfo;
+    int iMyChannelId;
 
 public slots:
     void OnConnectClicked();
+    void On64Clicked();
+    void On128Clicked();
+    void On256Clicked();
+    void OnSetVolumeClicked();
     void OnPracticeModeClicked();
+    void OnVolSliderChanged();
+    void OnCmbPlayersChanged();
+    void OnEdtNameChanged();
+    
+    void OnConClientListMesReceived ( CVector<CChannelInfo> vecChanInfo );
+    void OnClientIDReceived ( int iCh );
+    
 
 signals:
     void ReqServerListQuery ( CHostAddress InetAddr );

@@ -38,9 +38,9 @@ int main ( int argc, char** argv )
     Client.SetSndCrdPrefFrameSizeFactor(128);
     Client.SetMuteOutStream(false);
     Client.SetDoAutoSockBufSize(true);
-    Client.SetAudioChannels(CC_STEREO);
+    //Client.SetAudioChannels(CC_STEREO);
     
-    Client.SetAudioQuality( AQ_HIGH );
+    //Client.SetAudioQuality( AQ_HIGH );
     
     CClientSettings Settings ( &Client, "jamulussettings.ini" );
     
