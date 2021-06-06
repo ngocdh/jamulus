@@ -138,6 +138,7 @@ CSound::CSound ( void           (*fpNewProcessCallback) ( CVector<short>& psData
 
 int CSound::Init ( const int iCoreAudioBufferSizeMono )
 {
+    try{
     //printf("Init sound ..."); <= to check the number of Sound inits at launch
     // init base class
     //CSoundBase::Init ( iCoreAudioBufferSizeMono ); this does nothing
@@ -244,8 +245,11 @@ int CSound::Init ( const int iCoreAudioBufferSizeMono )
     checkStatus(status);
     
     isInitialized = true;
+    }catch( const CGenErr& generr ){
+        qDebug("Sound Init exception ....");
+    }
     
-  return iCoreAudioBufferSizeMono;
+    return iCoreAudioBufferSizeMono;
 }
 
 void CSound::Start()

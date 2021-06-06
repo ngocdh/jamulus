@@ -198,17 +198,17 @@ public slots:
 
     void OnCLServerListReceived ( CHostAddress InetAddr, CVector<CServerInfo> vecServerInfo )
     {
-        ConnectDlg.SetServerList ( InetAddr, vecServerInfo );
+        //ConnectDlg.SetServerList ( InetAddr, vecServerInfo );
     }
 
     void OnCLRedServerListReceived ( CHostAddress InetAddr, CVector<CServerInfo> vecServerInfo )
     {
-        ConnectDlg.SetServerList ( InetAddr, vecServerInfo, true );
+        //ConnectDlg.SetServerList ( InetAddr, vecServerInfo, true );
     }
 
     void OnCLConnClientsListMesReceived ( CHostAddress InetAddr, CVector<CChannelInfo> vecChanInfo )
     {
-        ConnectDlg.SetConnClientsList ( InetAddr, vecChanInfo );
+        //ConnectDlg.SetConnClientsList ( InetAddr, vecChanInfo );
     }
 
     void OnClientIDReceived ( int iChanID ) { MainMixerBoard->SetMyChannelID ( iChanID ); }

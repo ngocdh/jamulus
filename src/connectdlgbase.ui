@@ -1,152 +1,154 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>CConnectDlgBase</class>
- <widget class="QDialog" name="CConnectDlgBase">
-  <property name="geometry">
-   <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>521</width>
-    <height>493</height>
-   </rect>
-  </property>
-  <property name="windowTitle">
-   <string>Connection Setup</string>
-  </property>
-  <property name="windowIcon">
-   <iconset resource="resources.qrc">
-    <normaloff>:/png/main/res/fronticon.png</normaloff>:/png/main/res/fronticon.png</iconset>
-  </property>
-  <property name="styleSheet">
-   <string/>
-  </property>
-  <property name="sizeGripEnabled">
-   <bool>true</bool>
-  </property>
-  <layout class="QVBoxLayout">
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <property name="bottomMargin">
-      <number>0</number>
-     </property>
-     <item>
-      <widget class="QLabel" name="lblList">
-       <property name="text">
-        <string>List</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QComboBox" name="cbxCentServAddrType"/>
-     </item>
-     <item>
-      <widget class="QLabel" name="lblFilter">
-       <property name="text">
-        <string>Filter</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="edtFilter"/>
-     </item>
-     <item>
-      <widget class="QCheckBox" name="chbExpandAll">
-       <property name="text">
-        <string>Show All Musicians</string>
-       </property>
-      </widget>
-     </item>
+    <class>CConnectDlgBase</class>
+    <widget class="QDialog" name="CConnectDlgBase">
+        <property name="geometry">
+            <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>521</width>
+                <height>200</height>
+            </rect>
+        </property>
+        <property name="windowTitle">
+            <string>Connection Setup</string>
+        </property>
+        <property name="windowIcon">
+            <iconset resource="resources.qrc">
+                <normaloff>:/png/main/res/fronticon.png</normaloff>:/png/main/res/fronticon.png
+            </iconset>
+        </property>
+        <property name="styleSheet">
+            <string/>
+        </property>
+        <property name="sizeGripEnabled">
+            <bool>true</bool>
+        </property>
+        <layout class="QVBoxLayout">
+            <item>
+                <layout class="QHBoxLayout">
+
+                    <item>
+                        <widget class="QComboBox" name="cmbServerList"/>
+                    </item>
+
+                    <item>
+                        <widget class="QLineEdit" name="edtServerAddress"/>
+                    </item>
+                </layout>
+            </item>
+
+<item>
+    <layout class="QHBoxLayout">
+        <item>
+            <widget class="QLabel" name="lblName">
+                <property name="text">
+                    <string>Name</string>
+                </property>
+                <property name="alignment">
+                    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                </property>
+            </widget>
+        </item>
+        <item>
+            <widget class="QLineEdit" name="edtName"/>
+        </item>
+        <item>
+            <widget class="QPushButton" name="butConnect">
+                <property name="text">
+                    <string>&amp;Connect</string>
+                </property>
+                <property name="default">
+                    <bool>true</bool>
+                </property>
+            </widget>
+        </item>
     </layout>
-   </item>
-   <item>
-    <widget class="QTreeWidget" name="lvwServers">
-     <property name="editTriggers">
-      <set>QAbstractItemView::NoEditTriggers</set>
-     </property>
-     <property name="tabKeyNavigation">
-      <bool>true</bool>
-     </property>
-     <column>
-      <property name="text">
-       <string>Server Name</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Ping Time</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Musicians</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Location</string>
-      </property>
-     </column>
+</item>
+
+<item>
+    <layout class="QHBoxLayout">
+        <item>
+            <widget class="QTextEdit" name="txtPlayers">
+
+            </widget>
+        </item>
+    </layout>
+</item>
+
+<item>
+    <layout class="QHBoxLayout">
+        <item>
+            <widget class="QComboBox" name="cmbPlayers"/>
+        </item>
+        <item>
+            <widget class="QComboBox" name="cmbVolume"/>
+        </item>
+        <item>
+            <widget class="QPushButton" name="butSetVolume">
+                <property name="text">
+                    <string>&amp;SetVolume</string>
+                </property>
+                <property name="default">
+                    <bool>false</bool>
+                </property>
+            </widget>
+        </item>
+    </layout>
+</item>
+
+<item>
+    <layout class="QHBoxLayout">
+        <item>
+            <widget class="QComboBox" name="cmbInputGain"/>
+        </item>
+        <item>
+            <widget class="QComboBox" name="cmbReverb"/>
+        </item>
+
+    </layout>
+</item>
+
+<item>
+    <layout class="QHBoxLayout">
+        <item>
+            <widget class="QComboBox" name="cmbBuffer"/>
+        </item>
+        <item>
+            <widget class="QComboBox" name="cmbQuality"/>
+        </item>
+        <item>
+            <widget class="QComboBox" name="cmbChannels"/>
+        </item>
+
+    </layout>
+</item>
+
+<item>
+    <layout class="QHBoxLayout">
+        <item>
+            <widget class="QComboBox" name="cmbDevice"/>
+        </item>
+        <item>
+            <widget class="QComboBox" name="cmbOpus"/>
+        </item>
+
+        <item>
+            <widget class="QPushButton" name="butPracticeMode">
+                <property name="text">
+                    <string>&amp;PracticeMode</string>
+                </property>
+                <property name="default">
+                    <bool>false</bool>
+                </property>
+            </widget>
+        </item>
+    </layout>
+</item>
+        </layout>
     </widget>
-   </item>
-   <item>
-    <layout class="QHBoxLayout">
-     <item>
-      <widget class="QLabel" name="lblServerAddr">
-       <property name="text">
-        <string>Server Address</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QComboBox" name="cbxServerAddr">
-       <property name="editable">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <layout class="QHBoxLayout">
-     <item>
-      <spacer>
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>351</width>
-         <height>25</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QPushButton" name="butCancel">
-       <property name="text">
-        <string>C&amp;ancel</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="butConnect">
-       <property name="text">
-        <string>&amp;Connect</string>
-       </property>
-       <property name="default">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-  </layout>
- </widget>
- <resources>
-  <include location="resources.qrc"/>
- </resources>
- <connections/>
+    <resources>
+        <include location="resources.qrc"/>
+    </resources>
+    <connections/>
 </ui>
