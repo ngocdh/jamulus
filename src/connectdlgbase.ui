@@ -129,6 +129,9 @@
         <item>
             <widget class="QComboBox" name="cmbDevice"/>
         </item>
+        <item>
+            <widget class="QComboBox" name="cmbOpus"/>
+        </item>
 
         <item>
             <widget class="QPushButton" name="butPracticeMode">

@@ -56,18 +56,22 @@ CConnectDlg::CConnectDlg ( CClient* pNCliP, CClientSettings* Settings, QWidget* 
     cmbBuffer->addItem("256",4);
     cmbBuffer->setCurrentIndex(1);
     
-    cmbQuality->addItem("High", 2);
-    cmbQuality->addItem("Normal", 1);
     cmbQuality->addItem("Low", 0);
+    cmbQuality->addItem("Normal", 1);
+    cmbQuality->addItem("High", 2);
     cmbQuality->setCurrentIndex(1);
     
-    cmbChannels->addItem("Stereo",2);
-    cmbChannels->addItem("Mono in-Stereo out",1);
     cmbChannels->addItem("Mono",0);
-    cmbChannels->setCurrentIndex(0);
+    cmbChannels->addItem("Mono in-Stereo out",1);
+    cmbChannels->addItem("Stereo",2);
+    cmbChannels->setCurrentIndex(2);
     
     cmbDevice->addItem("AutoDev", 0);
     cmbDevice->addItem("ManualDev", 20);//iOS: any value>0, Android: must find exact value
+    
+    cmbOpus->addItem("Compression");
+    cmbOpus->addItem("No Compression");
+    cmbOpus->setCurrentIndex(0);
     
     InitValues();
     
@@ -108,6 +112,8 @@ CConnectDlg::CConnectDlg ( CClient* pNCliP, CClientSettings* Settings, QWidget* 
     
     QObject::connect ( cmbServerList, static_cast<void ( QComboBox::* ) ( int )> ( &QComboBox::activated ), this, &CConnectDlg::OnCmbServerListChanged );
     
+    QObject::connect ( cmbOpus, static_cast<void ( QComboBox::* ) ( int )> ( &QComboBox::activated ), this, &CConnectDlg::OnCmbOpusChanged );
+    
     
     
 
@@ -130,6 +136,7 @@ void CConnectDlg::OnConClientListMesReceived ( CVector<CChannelInfo> vecChanInfo
     for(int i = 0; i < n; i++)
     {
         QString info = QString::number( vecChanInfo[i].iChanID ) + " - " + vecChanInfo[i].strName;
+        if (CInstPictures::GetName(vecChanInfo[i].iInstrument) != "None") info = info + " | " + CInstPictures::GetName(vecChanInfo[i].iInstrument);
         if ( vecChanInfo[i].iChanID == iMyChannelId )
         {
             info = info + "\t\t <= ME";
@@ -295,6 +302,12 @@ void CConnectDlg::OnCmbServerListChanged()
     pClient->ChannelInfo.strName = edtName->text();
     pClient->Start();*/
     
+}
+
+void CConnectDlg::OnCmbOpusChanged()
+{
+    bool bOpus = cmbOpus->currentIndex() == 0;
+    pClient->SetEnableOPUS64(bOpus);
 }
 
 void CConnectDlg::InitValues()

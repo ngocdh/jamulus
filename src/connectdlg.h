@@ -82,6 +82,7 @@ public slots:
     void OnEdtNameChanged();
     void OnGetServerListClicked();
     void OnCmbServerListChanged();
+    void OnCmbOpusChanged();
     
     void OnConClientListMesReceived ( CVector<CChannelInfo> vecChanInfo );
     void OnClientIDReceived ( int iCh );
