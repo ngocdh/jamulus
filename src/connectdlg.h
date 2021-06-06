@@ -77,11 +77,16 @@ public slots:
     void OnCmbQualityChanged();
     void OnCmbChannelsChanged();
     void OnCmbDeviceChanged();
+    void OnCmbInputGainChanged();
+    void OnCmbReverbChanged();
     void OnEdtNameChanged();
+    void OnGetServerListClicked();
+    void OnCmbServerListChanged();
     
     void OnConClientListMesReceived ( CVector<CChannelInfo> vecChanInfo );
     void OnClientIDReceived ( int iCh );
     
+    void OnCLServerListReceived ( CHostAddress InetAddr, CVector<CServerInfo> vecServerInfo );
 
 signals:
     void ReqServerListQuery ( CHostAddress InetAddr );

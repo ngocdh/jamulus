@@ -27,16 +27,21 @@
         <layout class="QVBoxLayout">
             <item>
                 <layout class="QHBoxLayout">
+
+<item>
+    <widget class="QPushButton" name="butGetServerList">
+        <property name="text">
+            <string>Server</string>
+        </property>
+        <property name="default">
+            <bool>false</bool>
+        </property>
+    </widget>
+</item>
                     <item>
-                        <widget class="QLabel" name="lblServerAddr">
-                            <property name="text">
-                                <string>Server</string>
-                            </property>
-                            <property name="alignment">
-                                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                            </property>
-                        </widget>
+                        <widget class="QComboBox" name="cmbServerList"/>
                     </item>
+
                     <item>
                         <widget class="QLineEdit" name="edtServerAddress"/>
                     </item>
@@ -84,19 +89,7 @@
 <item>
     <layout class="QHBoxLayout">
         <item>
-            <widget class="QComboBox" name="cmbPlayers">
-
-            </widget>
-        </item>
-        <item>
-            <widget class="QLabel" name="lblVol">
-                <property name="text">
-                    <string>Vol</string>
-                </property>
-                <property name="alignment">
-                    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                </property>
-            </widget>
+            <widget class="QComboBox" name="cmbPlayers"/>
         </item>
         <item>
             <widget class="QComboBox" name="cmbVolume"/>
@@ -111,6 +104,18 @@
                 </property>
             </widget>
         </item>
+    </layout>
+</item>
+
+<item>
+    <layout class="QHBoxLayout">
+        <item>
+            <widget class="QComboBox" name="cmbInputGain"/>
+        </item>
+        <item>
+            <widget class="QComboBox" name="cmbReverb"/>
+        </item>
+
     </layout>
 </item>
 

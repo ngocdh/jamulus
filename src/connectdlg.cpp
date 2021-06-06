@@ -42,7 +42,14 @@ CConnectDlg::CConnectDlg ( CClient* pNCliP, CClientSettings* Settings, QWidget* 
     txtPlayers->setFixedHeight ( 16 * m.lineSpacing() );
     txtPlayers->setReadOnly(true);
     
-    for (int i=10;i>=0;i--) cmbVolume->addItem(QString::number(i * 10));
+    for (int i=0;i<=10;i++)
+    {
+        cmbVolume->addItem("Volume " + QString::number(i * 10));
+        cmbReverb->addItem("Reverb " + QString::number(i * 10));
+    }
+    
+    cmbInputGain->addItem("0 Input Gain");
+    for (int i=2;i<=10;i++) cmbInputGain->addItem("Gain x" + QString::number(i));
     
     cmbBuffer->addItem("64",1);
     cmbBuffer->addItem("128",2);
@@ -62,15 +69,17 @@ CConnectDlg::CConnectDlg ( CClient* pNCliP, CClientSettings* Settings, QWidget* 
     cmbDevice->addItem("AutoDev", 0);
     cmbDevice->addItem("ManualDev", 20);//iOS: any value>0, Android: must find exact value
     
-    
     InitValues();
 
     QObject::connect ( pClient, &CClient::ConClientListMesReceived, this, &CConnectDlg::OnConClientListMesReceived );
     QObject::connect ( pClient, &CClient::ClientIDReceived, this, &CConnectDlg::OnClientIDReceived );
+    QObject::connect ( pClient, &CClient::CLServerListReceived, this, &CConnectDlg::OnCLServerListReceived );
 
 
     QObject::connect ( butConnect, &QPushButton::clicked, this, &CConnectDlg::OnConnectClicked );
     QObject::connect ( butPracticeMode, &QPushButton::clicked, this, &CConnectDlg::OnPracticeModeClicked );
+    QObject::connect( butGetServerList, &QPushButton::clicked, this, &CConnectDlg::OnGetServerListClicked );
+    
     //QObject::connect ( but64, &QPushButton::clicked, this, &CConnectDlg::On64Clicked );
     //QObject::connect ( but128, &QPushButton::clicked, this, &CConnectDlg::On128Clicked );
     //QObject::connect ( but256, &QPushButton::clicked, this, &CConnectDlg::On256Clicked );
@@ -84,6 +93,10 @@ CConnectDlg::CConnectDlg ( CClient* pNCliP, CClientSettings* Settings, QWidget* 
     QObject::connect ( cmbQuality, static_cast<void ( QComboBox::* ) ( int )> ( &QComboBox::activated ), this, &CConnectDlg::OnCmbQualityChanged );
     QObject::connect ( cmbChannels, static_cast<void ( QComboBox::* ) ( int )> ( &QComboBox::activated ), this, &CConnectDlg::OnCmbChannelsChanged );
     QObject::connect ( cmbDevice, static_cast<void ( QComboBox::* ) ( int )> ( &QComboBox::activated ), this, &CConnectDlg::OnCmbDeviceChanged );
+    QObject::connect ( cmbReverb, static_cast<void ( QComboBox::* ) ( int )> ( &QComboBox::activated ), this, &CConnectDlg::OnCmbReverbChanged );
+    QObject::connect ( cmbInputGain, static_cast<void ( QComboBox::* ) ( int )> ( &QComboBox::activated ), this, &CConnectDlg::OnCmbInputGainChanged );
+    
+    QObject::connect ( cmbServerList, static_cast<void ( QComboBox::* ) ( int )> ( &QComboBox::activated ), this, &CConnectDlg::OnCmbServerListChanged );
     
     
     
@@ -102,15 +115,21 @@ void CConnectDlg::OnConClientListMesReceived ( CVector<CChannelInfo> vecChanInfo
     qDebug() << "People in room: " << n;
     txtPlayers->clear();
     cmbPlayers->clear();
+    int iMyIndex;
     for(int i = 0; i < n; i++)
     {
         QString info = QString::number( vecChanInfo[i].iChanID ) + " - " + vecChanInfo[i].strName;
-        if ( vecChanInfo[i].iChanID == iMyChannelId ) info = info + "\t\t <= ME";
+        if ( vecChanInfo[i].iChanID == iMyChannelId )
+        {
+            info = info + "\t\t <= ME";
+            iMyIndex = i;
+        }
         qDebug() << info;
         txtPlayers->append(info);
         cmbPlayers->addItem(info, QString::number( vecChanInfo[i].iChanID ));
         
     }
+    cmbPlayers->setCurrentIndex(iMyIndex);
     //but64->setFocus();
 
 }
@@ -171,7 +190,7 @@ void CConnectDlg::On256Clicked()
 }
 void CConnectDlg::OnSetVolumeClicked()
 {
-    pClient->SetRemoteChanGain(cmbPlayers->currentData().toInt(), cmbVolume->currentText().toInt()/100.00, cmbPlayers->currentData().toInt()==iMyChannelId);
+    pClient->SetRemoteChanGain(cmbPlayers->currentData().toInt(), cmbVolume->currentIndex()/10.00, cmbPlayers->currentData().toInt()==iMyChannelId);
 }
 
 void CConnectDlg::OnVolSliderChanged()
@@ -202,6 +221,14 @@ void CConnectDlg::OnCmbDeviceChanged()
     pClient->SetInputDeviceId(cmbDevice->currentData().toInt());
     //pClient->SetBuiltInMicId(cmbDevice->currentData().toInt());
 }
+void CConnectDlg::OnCmbInputGainChanged()
+{
+    pClient->SetInputBoost(cmbInputGain->currentIndex() + 1);
+}
+void CConnectDlg::OnCmbReverbChanged()
+{
+    pClient->SetReverbLevel(cmbReverb->currentIndex() * 10) ;
+}
 
 void CConnectDlg::OnEdtNameChanged()
 {
@@ -210,6 +237,50 @@ void CConnectDlg::OnEdtNameChanged()
     // update channel info at the server
     pClient->SetRemoteInfo();
 
+}
+
+void CConnectDlg::OnGetServerListClicked()
+{
+    CHostAddress CentralServerAddress;
+
+    if ( NetworkUtil().ParseNetworkAddress (
+                 NetworkUtil::GetCentralServerAddress ( ECSAddType::AT_DEFAULT , "" ),
+                 CentralServerAddress ) )
+    {
+        // send the request for the server list
+        pClient->CreateCLReqServerListMes ( CentralServerAddress );
+    }
+    //pClient->CreateCLReqServerListMes ( CHostAddress(QHostAddress("anygenre1.jamulus.io"),22124) );
+    //qDebug("sending server request");
+    //pClient->Serverlist
+}
+
+void CConnectDlg::OnCLServerListReceived ( CHostAddress InetAddr, CVector<CServerInfo> vecServerInfo )
+{
+    //ConnectDlg.SetServerList ( InetAddr, vecServerInfo );
+    //qDebug(" Received Server list: %d", vecServerInfo.size());
+    for ( uint i=0; i < vecServerInfo.size(); i++ )
+    {
+        cmbServerList->addItem( vecServerInfo[i].strName + " - " + vecServerInfo[i].strCity, vecServerInfo[i].HostAddr.toString() );
+    }
+}
+
+void CConnectDlg::OnCmbServerListChanged()
+{
+    strSelectedAddress = NetworkUtil::FixAddress ( cmbServerList->currentData().toString() );
+    edtServerAddress->setText(cmbServerList->currentData().toString());
+
+    if ( pClient->IsRunning() ) //disconnect if connected
+    {
+        pClient->Stop();
+        InitValues();
+        butConnect->setText( "Connect" );
+    }
+    
+    pClient->SetServerAddr(strSelectedAddress);
+    pClient->ChannelInfo.strName = edtName->text();
+    pClient->Start();
+    
 }
 
 void CConnectDlg::InitValues()
