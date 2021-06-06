@@ -70,6 +70,16 @@ CConnectDlg::CConnectDlg ( CClient* pNCliP, CClientSettings* Settings, QWidget* 
     cmbDevice->addItem("ManualDev", 20);//iOS: any value>0, Android: must find exact value
     
     InitValues();
+    
+    CHostAddress CentralServerAddress;
+
+    if ( NetworkUtil().ParseNetworkAddress (
+                 NetworkUtil::GetCentralServerAddress ( ECSAddType::AT_DEFAULT , "" ),
+                 CentralServerAddress ) )
+    {
+        // send the request for the server list
+        pClient->CreateCLReqServerListMes ( CentralServerAddress );
+    }
 
     QObject::connect ( pClient, &CClient::ConClientListMesReceived, this, &CConnectDlg::OnConClientListMesReceived );
     QObject::connect ( pClient, &CClient::ClientIDReceived, this, &CConnectDlg::OnClientIDReceived );
@@ -78,7 +88,7 @@ CConnectDlg::CConnectDlg ( CClient* pNCliP, CClientSettings* Settings, QWidget* 
 
     QObject::connect ( butConnect, &QPushButton::clicked, this, &CConnectDlg::OnConnectClicked );
     QObject::connect ( butPracticeMode, &QPushButton::clicked, this, &CConnectDlg::OnPracticeModeClicked );
-    QObject::connect( butGetServerList, &QPushButton::clicked, this, &CConnectDlg::OnGetServerListClicked );
+    //QObject::connect( butGetServerList, &QPushButton::clicked, this, &CConnectDlg::OnGetServerListClicked );
     
     //QObject::connect ( but64, &QPushButton::clicked, this, &CConnectDlg::On64Clicked );
     //QObject::connect ( but128, &QPushButton::clicked, this, &CConnectDlg::On128Clicked );
@@ -259,7 +269,9 @@ void CConnectDlg::OnCLServerListReceived ( CHostAddress InetAddr, CVector<CServe
 {
     //ConnectDlg.SetServerList ( InetAddr, vecServerInfo );
     //qDebug(" Received Server list: %d", vecServerInfo.size());
-    for ( uint i=0; i < vecServerInfo.size(); i++ )
+    cmbServerList->clear();
+    cmbServerList->addItem( "Servers", "0.0.0.0" );
+    for ( uint i=1; i < vecServerInfo.size(); i++ )
     {
         cmbServerList->addItem( vecServerInfo[i].strName + " - " + vecServerInfo[i].strCity, vecServerInfo[i].HostAddr.toString() );
     }
@@ -267,9 +279,9 @@ void CConnectDlg::OnCLServerListReceived ( CHostAddress InetAddr, CVector<CServe
 
 void CConnectDlg::OnCmbServerListChanged()
 {
-    strSelectedAddress = NetworkUtil::FixAddress ( cmbServerList->currentData().toString() );
     edtServerAddress->setText(cmbServerList->currentData().toString());
-
+/*
+    strSelectedAddress = NetworkUtil::FixAddress ( cmbServerList->currentData().toString() );
     if ( pClient->IsRunning() ) //disconnect if connected
     {
         pClient->Stop();
@@ -279,7 +291,7 @@ void CConnectDlg::OnCmbServerListChanged()
     
     pClient->SetServerAddr(strSelectedAddress);
     pClient->ChannelInfo.strName = edtName->text();
-    pClient->Start();
+    pClient->Start();*/
     
 }
 
