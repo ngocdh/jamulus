@@ -115,6 +115,7 @@ CConnectDlg::CConnectDlg ( CClient* pNCliP, CClientSettings* Settings, QWidget* 
 
 void CConnectDlg::OnConClientListMesReceived ( CVector<CChannelInfo> vecChanInfo )
 {
+    butConnect->setText( "Disconnect" );
     vChanInfo = vecChanInfo;
     int n = vecChanInfo.Size();
     /*if ( n > 0 )
@@ -154,6 +155,7 @@ void CConnectDlg::OnClientIDReceived ( int iCh )
 
 void CConnectDlg::OnConnectClicked()
 {
+    if ( edtServerAddress->text().length() == 0 ) return;
     
     strSelectedAddress = NetworkUtil::FixAddress ( edtServerAddress->text() );
 
