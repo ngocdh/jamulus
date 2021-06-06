@@ -199,7 +199,8 @@ void CConnectDlg::OnCmbChannelsChanged()
 }
 void CConnectDlg::OnCmbDeviceChanged()
 {
-    pClient->SetBuiltInMicId(cmbDevice->currentData().toInt());
+    pClient->SetInputDeviceId(cmbDevice->currentData().toInt());
+    //pClient->SetBuiltInMicId(cmbDevice->currentData().toInt());
 }
 
 void CConnectDlg::OnEdtNameChanged()
