@@ -35,17 +35,35 @@ CConnectDlg::CConnectDlg ( CClient* pNCliP, CClientSettings* Settings, QWidget* 
 
     butConnect->setFocus();
     
-    edtPlayerId->setValidator( new QIntValidator(0, 100, this) );
-    edtVolume->setValidator(new QIntValidator(0, 100, this));
+    //edtPlayerId->setValidator( new QIntValidator(0, 100, this) );
+    //edtVolume->setValidator(new QIntValidator(0, 100, this));
     
     QFontMetrics m (txtPlayers -> font()) ;
     txtPlayers->setFixedHeight ( 16 * m.lineSpacing() );
     txtPlayers->setReadOnly(true);
     
-    sliderVolume->setRange(0, 100);
-    sliderVolume->setTickInterval(10);
-    sliderVolume->setOrientation(Qt::Horizontal);
-    sliderVolume->setFixedHeight(2 * m.lineSpacing());
+    for (int i=10;i>=0;i--) cmbVolume->addItem(QString::number(i * 10));
+    
+    cmbBuffer->addItem("64",1);
+    cmbBuffer->addItem("128",2);
+    cmbBuffer->addItem("256",4);
+    cmbBuffer->setCurrentIndex(1);
+    
+    cmbQuality->addItem("High", 2);
+    cmbQuality->addItem("Normal", 1);
+    cmbQuality->addItem("Low", 0);
+    cmbQuality->setCurrentIndex(1);
+    
+    cmbChannels->addItem("Stereo",2);
+    cmbChannels->addItem("Mono in-Stereo out",1);
+    cmbChannels->addItem("Mono",0);
+    cmbChannels->setCurrentIndex(0);
+    
+    cmbDevice->addItem("AutoDev", 0);
+    cmbDevice->addItem("ManualDev", 20);//iOS: any value>0, Android: must find exact value
+    
+    
+    InitValues();
 
     QObject::connect ( pClient, &CClient::ConClientListMesReceived, this, &CConnectDlg::OnConClientListMesReceived );
     QObject::connect ( pClient, &CClient::ClientIDReceived, this, &CConnectDlg::OnClientIDReceived );
@@ -53,15 +71,20 @@ CConnectDlg::CConnectDlg ( CClient* pNCliP, CClientSettings* Settings, QWidget* 
 
     QObject::connect ( butConnect, &QPushButton::clicked, this, &CConnectDlg::OnConnectClicked );
     QObject::connect ( butPracticeMode, &QPushButton::clicked, this, &CConnectDlg::OnPracticeModeClicked );
-    QObject::connect ( but64, &QPushButton::clicked, this, &CConnectDlg::On64Clicked );
-    QObject::connect ( but128, &QPushButton::clicked, this, &CConnectDlg::On128Clicked );
-    QObject::connect ( but256, &QPushButton::clicked, this, &CConnectDlg::On256Clicked );
+    //QObject::connect ( but64, &QPushButton::clicked, this, &CConnectDlg::On64Clicked );
+    //QObject::connect ( but128, &QPushButton::clicked, this, &CConnectDlg::On128Clicked );
+    //QObject::connect ( but256, &QPushButton::clicked, this, &CConnectDlg::On256Clicked );
     QObject::connect ( butSetVolume, &QPushButton::clicked, this, &CConnectDlg::OnSetVolumeClicked );
     
     QObject::connect ( edtName, &QLineEdit::textChanged, this, &CConnectDlg::OnEdtNameChanged );
     
-    QObject::connect ( sliderVolume, &QSlider::valueChanged, this, &CConnectDlg::OnVolSliderChanged );
+    //QObject::connect ( sliderVolume, &QSlider::valueChanged, this, &CConnectDlg::OnVolSliderChanged );
     QObject::connect ( cmbPlayers, static_cast<void ( QComboBox::* ) ( int )> ( &QComboBox::activated ), this, &CConnectDlg::OnCmbPlayersChanged );
+    QObject::connect ( cmbBuffer, static_cast<void ( QComboBox::* ) ( int )> ( &QComboBox::activated ), this, &CConnectDlg::OnCmbBufferChanged );
+    QObject::connect ( cmbQuality, static_cast<void ( QComboBox::* ) ( int )> ( &QComboBox::activated ), this, &CConnectDlg::OnCmbQualityChanged );
+    QObject::connect ( cmbChannels, static_cast<void ( QComboBox::* ) ( int )> ( &QComboBox::activated ), this, &CConnectDlg::OnCmbChannelsChanged );
+    QObject::connect ( cmbDevice, static_cast<void ( QComboBox::* ) ( int )> ( &QComboBox::activated ), this, &CConnectDlg::OnCmbDeviceChanged );
+    
     
     
 
@@ -82,12 +105,13 @@ void CConnectDlg::OnConClientListMesReceived ( CVector<CChannelInfo> vecChanInfo
     for(int i = 0; i < n; i++)
     {
         QString info = QString::number( vecChanInfo[i].iChanID ) + " - " + vecChanInfo[i].strName;
+        if ( vecChanInfo[i].iChanID == iMyChannelId ) info = info + "\t\t <= ME";
         qDebug() << info;
         txtPlayers->append(info);
         cmbPlayers->addItem(info, QString::number( vecChanInfo[i].iChanID ));
         
     }
-    but64->setFocus();
+    //but64->setFocus();
 
 }
 
@@ -96,7 +120,7 @@ void CConnectDlg::OnClientIDReceived ( int iCh )
     iMyChannelId = iCh;
     qDebug() << "Received My channel Id: " << iCh;
     butConnect->setText( "Disconnect" );
-    edtPlayerId->setText(QString::number(iCh));
+    //edtPlayerId->setText(QString::number(iCh));
 }
 
 void CConnectDlg::OnConnectClicked()
@@ -107,8 +131,7 @@ void CConnectDlg::OnConnectClicked()
     if ( pClient->IsRunning() ) //disconnect if connected
     {
         pClient->Stop();
-        txtPlayers->clear();
-        cmbPlayers->clear();
+        InitValues();
         butConnect->setText( "Connect" );
         return;
     }
@@ -148,18 +171,35 @@ void CConnectDlg::On256Clicked()
 }
 void CConnectDlg::OnSetVolumeClicked()
 {
-    pClient->SetRemoteChanGain(edtPlayerId->text().toInt(), edtVolume->text().toInt()/100.00, false);
+    pClient->SetRemoteChanGain(cmbPlayers->currentData().toInt(), cmbVolume->currentText().toInt()/100.00, cmbPlayers->currentData().toInt()==iMyChannelId);
 }
 
 void CConnectDlg::OnVolSliderChanged()
 {
-    edtVolume->setText(QString::number(sliderVolume->value()));
-    pClient->SetRemoteChanGain(edtPlayerId->text().toInt(), edtVolume->text().toInt()/100.00, false);
+//    edtVolume->setText(QString::number(sliderVolume->value()));
+//    pClient->SetRemoteChanGain(edtPlayerId->text().toInt(), edtVolume->text().toInt()/100.00, edtPlayerId->text().toInt()==iMyChannelId);
 }
 
 void CConnectDlg::OnCmbPlayersChanged()
 {
-    edtPlayerId->setText(cmbPlayers->currentData().toString());
+    //edtPlayerId->setText(cmbPlayers->currentData().toString());
+}
+
+void CConnectDlg::OnCmbBufferChanged()
+{
+    pClient->SetSndCrdPrefFrameSizeFactor(cmbBuffer->currentData().toInt());
+}
+void CConnectDlg::OnCmbQualityChanged()
+{
+    pClient->SetAudioQuality(static_cast<EAudioQuality> (cmbBuffer->currentData().toInt()));
+}
+void CConnectDlg::OnCmbChannelsChanged()
+{
+    pClient->SetAudioChannels(static_cast<EAudChanConf> (cmbBuffer->currentData().toInt()));
+}
+void CConnectDlg::OnCmbDeviceChanged()
+{
+    pClient->SetBuiltInMicId(cmbDevice->currentData().toInt());
 }
 
 void CConnectDlg::OnEdtNameChanged()
@@ -169,4 +209,13 @@ void CConnectDlg::OnEdtNameChanged()
     // update channel info at the server
     pClient->SetRemoteInfo();
 
+}
+
+void CConnectDlg::InitValues()
+{
+    txtPlayers->clear();
+    cmbPlayers->clear();
+    cmbPlayers->addItem("Players");
+    iMyChannelId = -1;
+    
 }

@@ -52,6 +52,7 @@ public:
 
 protected:
     virtual void showEvent ( QShowEvent* );
+    void InitValues();
 
     CClientSettings* pSettings;
     CClient*         pClient;
@@ -72,6 +73,10 @@ public slots:
     void OnPracticeModeClicked();
     void OnVolSliderChanged();
     void OnCmbPlayersChanged();
+    void OnCmbBufferChanged();
+    void OnCmbQualityChanged();
+    void OnCmbChannelsChanged();
+    void OnCmbDeviceChanged();
     void OnEdtNameChanged();
     
     void OnConClientListMesReceived ( CVector<CChannelInfo> vecChanInfo );

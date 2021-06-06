@@ -89,29 +89,6 @@
             </widget>
         </item>
         <item>
-            <widget class="QSlider" name="sliderVolume">
-
-            </widget>
-        </item>
-    </layout>
-</item>
-
-<item>
-    <layout class="QHBoxLayout">
-        <item>
-            <widget class="QLabel" name="lblPlayer">
-                <property name="text">
-                    <string>PlayerId</string>
-                </property>
-                <property name="alignment">
-                    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                </property>
-            </widget>
-        </item>
-        <item>
-            <widget class="QLineEdit" name="edtPlayerId"/>
-        </item>
-        <item>
             <widget class="QLabel" name="lblVol">
                 <property name="text">
                     <string>Vol</string>
@@ -122,7 +99,7 @@
             </widget>
         </item>
         <item>
-            <widget class="QLineEdit" name="edtVolume"/>
+            <widget class="QComboBox" name="cmbVolume"/>
         </item>
         <item>
             <widget class="QPushButton" name="butSetVolume">
@@ -140,47 +117,22 @@
 <item>
     <layout class="QHBoxLayout">
         <item>
-            <spacer>
-                <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                    <size>
-                        <width>10</width>
-                        <height>10</height>
-                    </size>
-                </property>
-            </spacer>
+            <widget class="QComboBox" name="cmbBuffer"/>
         </item>
         <item>
-            <widget class="QPushButton" name="but64">
-                <property name="text">
-                    <string>Buff64</string>
-                </property>
-                <property name="default">
-                    <bool>false</bool>
-                </property>
-            </widget>
+            <widget class="QComboBox" name="cmbQuality"/>
         </item>
         <item>
-            <widget class="QPushButton" name="but128">
-                <property name="text">
-                    <string>Buff128</string>
-                </property>
-                <property name="default">
-                    <bool>false</bool>
-                </property>
-            </widget>
+            <widget class="QComboBox" name="cmbChannels"/>
         </item>
+
+    </layout>
+</item>
+
+<item>
+    <layout class="QHBoxLayout">
         <item>
-            <widget class="QPushButton" name="but256">
-                <property name="text">
-                    <string>Buff256</string>
-                </property>
-                <property name="default">
-                    <bool>false</bool>
-                </property>
-            </widget>
+            <widget class="QComboBox" name="cmbDevice"/>
         </item>
 
         <item>
