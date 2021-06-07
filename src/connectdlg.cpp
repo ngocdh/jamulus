@@ -275,7 +275,7 @@ void CConnectDlg::OnCLServerListReceived ( CHostAddress InetAddr, CVector<CServe
     //ConnectDlg.SetServerList ( InetAddr, vecServerInfo );
     //qDebug(" Received Server list: %d", vecServerInfo.size());
     cmbServerList->clear();
-    //cmbServerList->addItem( "Servers", "0.0.0.0" );
+    cmbServerList->addItem( "-", "anygenre1.jamulus.io" );
     for ( uint i=1; i < vecServerInfo.size(); i++ )
     {
         cmbServerList->addItem( vecServerInfo[i].strName + " - " + vecServerInfo[i].strCity, vecServerInfo[i].HostAddr.toString() );
