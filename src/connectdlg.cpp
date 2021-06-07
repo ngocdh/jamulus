@@ -73,17 +73,14 @@ CConnectDlg::CConnectDlg ( CClient* pNCliP, CClientSettings* Settings, QWidget* 
     cmbOpus->addItem("No Compression");
     cmbOpus->setCurrentIndex(0);
     
+    edtServerAddress->setText("anygenre1.jamulus.io");
+    edtName->setText("No Name");
+    
+    cmbServerList->addItem("Servers");
+    
     InitValues();
     
-    CHostAddress CentralServerAddress;
 
-    if ( NetworkUtil().ParseNetworkAddress (
-                 NetworkUtil::GetCentralServerAddress ( ECSAddType::AT_DEFAULT , "" ),
-                 CentralServerAddress ) )
-    {
-        // send the request for the server list
-        pClient->CreateCLReqServerListMes ( CentralServerAddress );
-    }
 
     QObject::connect ( pClient, &CClient::ConClientListMesReceived, this, &CConnectDlg::OnConClientListMesReceived );
     QObject::connect ( pClient, &CClient::ClientIDReceived, this, &CConnectDlg::OnClientIDReceived );
@@ -92,7 +89,7 @@ CConnectDlg::CConnectDlg ( CClient* pNCliP, CClientSettings* Settings, QWidget* 
 
     QObject::connect ( butConnect, &QPushButton::clicked, this, &CConnectDlg::OnConnectClicked );
     QObject::connect ( butPracticeMode, &QPushButton::clicked, this, &CConnectDlg::OnPracticeModeClicked );
-    //QObject::connect( butGetServerList, &QPushButton::clicked, this, &CConnectDlg::OnGetServerListClicked );
+    QObject::connect( butGetServerList, &QPushButton::clicked, this, &CConnectDlg::OnGetServerListClicked );
     
     //QObject::connect ( but64, &QPushButton::clicked, this, &CConnectDlg::On64Clicked );
     //QObject::connect ( but128, &QPushButton::clicked, this, &CConnectDlg::On128Clicked );
@@ -183,8 +180,7 @@ void CConnectDlg::OnConnectClicked()
 
 void CConnectDlg::showEvent ( QShowEvent* )
 {
-
-
+    
 }
 
 void CConnectDlg::OnPracticeModeClicked()
@@ -279,7 +275,7 @@ void CConnectDlg::OnCLServerListReceived ( CHostAddress InetAddr, CVector<CServe
     //ConnectDlg.SetServerList ( InetAddr, vecServerInfo );
     //qDebug(" Received Server list: %d", vecServerInfo.size());
     cmbServerList->clear();
-    cmbServerList->addItem( "Servers", "0.0.0.0" );
+    //cmbServerList->addItem( "Servers", "0.0.0.0" );
     for ( uint i=1; i < vecServerInfo.size(); i++ )
     {
         cmbServerList->addItem( vecServerInfo[i].strName + " - " + vecServerInfo[i].strCity, vecServerInfo[i].HostAddr.toString() );

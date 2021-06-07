@@ -27,7 +27,16 @@
         <layout class="QVBoxLayout">
             <item>
                 <layout class="QHBoxLayout">
-
+                    <item>
+                        <widget class="QPushButton" name="butGetServerList">
+                            <property name="text">
+                                <string>&amp;Fetch</string>
+                            </property>
+                            <property name="default">
+                                <bool>false</bool>
+                            </property>
+                        </widget>
+                    </item>
                     <item>
                         <widget class="QComboBox" name="cmbServerList"/>
                     </item>
