@@ -104,7 +104,7 @@ CServerListManager::CServerListManager ( const quint16  iNPortNum,
     eCentralServerAddressType ( AT_CUSTOM ), // must be AT_CUSTOM for the "no GUI" case
 
     bEnableIPv6 ( bNEnableIPv6 ),
-    eSvrRegStatus ( SRS_UNREGISTERED ),
+    eSvrRegStatus ( ESvrRegStatus::SRS_UNREGISTERED ),
     strMinServerVersion ( "" ), // disable version check with empty version
     pConnLessProtocol ( pNConLProt ),
 
