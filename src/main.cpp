@@ -25,7 +25,7 @@
 #include <QCoreApplication>
 #include <QDir>
 #include "global.h"
-#ifndef HEADLESS
+#if !defined ( HEADLESS ) and !defined (ANDROID ) and !defined( Q_OS_IOS )
 #    include <QApplication>
 #    include <QMessageBox>
 #    include "clientdlg.h"
@@ -41,10 +41,67 @@
 #    include "mac/activity.h"
 #endif
 
+#if defined( ANDROID ) or defined( Q_OS_IOS )
+#include <QGuiApplication>
+#include <QQmlApplicationEngine>
+#include "qmlconnectdlg.h"
+#include "qmlmixerdlg.h"
+#include <QQmlContext>
+#endif
+
 // Implementation **************************************************************
 
 int main ( int argc, char** argv )
 {
+
+#if defined( ANDROID ) or defined( Q_OS_IOS )
+    //NGOCDH - QML POC BEGIN
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+#endif
+    QGuiApplication app(argc, argv);
+
+    QQmlApplicationEngine engine;
+    const QUrl url( QStringLiteral ( "qrc:/main.qml" ) );
+    QObject::connect ( &engine, &QQmlApplicationEngine::objectCreated, &app,
+                       [url](QObject *obj, const QUrl &objUrl )
+        {
+            if ( !obj && url == objUrl ) QCoreApplication::exit ( -1 );
+        }, Qt::QueuedConnection );
+
+    CClient Client ( DEFAULT_PORT_NUMBER, DEFAULT_QOS_NUMBER, "", "", false, "mobileClientOnly", true ); //mute me in my personal mix - no personal monitoring
+    Client.SetEnableOPUS64 ( true );
+    Client.SetSndCrdPrefFrameSizeFactor ( 128 );
+    Client.SetAudioQuality ( AQ_HIGH );
+    Client.SetAudioChannels ( CC_STEREO );
+    Client.SetMuteOutStream ( true ); // Practice mode - no one can hear me
+    Client.SetDoAutoSockBufSize ( true );
+
+    QmlConnectDlg * connectDlg = new QmlConnectDlg ( &Client );
+    engine.rootContext()->setContextProperty ("connectDlg", connectDlg );
+
+    QmlMixerDlg * mixerDlg = new QmlMixerDlg ( &Client );
+    engine.rootContext()->setContextProperty ("mixerDlg", mixerDlg );
+
+#ifdef ANDROID
+    // special Android coded needed for record audio permission handling
+    auto androidaudiopermission = QtAndroid::checkPermission ( QString ( "android.permission.RECORD_AUDIO" ) );
+
+    if ( androidaudiopermission == QtAndroid::PermissionResult::Denied )
+    {
+        QtAndroid::PermissionResultMap resultHash1 = QtAndroid::requestPermissionsSync ( QStringList ( { "android.permission.RECORD_AUDIO" } ) );
+
+        if ( resultHash1["android.permission.RECORD_AUDIO"] == QtAndroid::PermissionResult::Denied )
+        {
+            return 0;
+        }
+    }
+#endif
+
+    engine.load(url);
+    return app.exec();
+#else //Not iOS and Android
+    //NGOCDH - QML POC END
 
     QString        strArgument;
     double         rDbleArgument;
@@ -725,6 +782,7 @@ int main ( int argc, char** argv )
 #endif
 
     return 0;
+#endif //not IOS and ANDROID
 }
 
 /******************************************************************************\

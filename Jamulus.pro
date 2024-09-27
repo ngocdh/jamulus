@@ -179,10 +179,14 @@ win32 {
     }
 } else:ios {
     QMAKE_INFO_PLIST = ios/Info.plist
-    QT += macextras
+    QT += macextras \
+    qml
+
     OBJECTIVE_SOURCES += ios/ios_app_delegate.mm
     HEADERS += ios/ios_app_delegate.h
     HEADERS += ios/sound.h
+    QMAKE_BUNDLE_DATA += ios/jlaunchscreen.storyboard
+    OTHER_FILES += ios/jlaunchscreen.storyboard
     OBJECTIVE_SOURCES += ios/sound.mm
     QMAKE_TARGET_BUNDLE_PREFIX = com.jamulussoftware.jamulus
     QMAKE_APPLICATION_BUNDLE_NAME. = $$TARGET
@@ -192,7 +196,8 @@ win32 {
     # we want to compile with C++14
     CONFIG += c++14
 
-    QT += androidextras
+    QT += androidextras \
+    qml
 
     # enabled only for debugging on android devices
     DEFINES += ANDROIDDEBUG
@@ -411,6 +416,8 @@ HEADERS += src/buffer.h \
     src/client.h \
     src/global.h \
     src/protocol.h \
+    src/qmlconnectdlg.h \
+    src/qmlmixerdlg.h \
     src/recorder/jamcontroller.h \
     src/threadpool.h \
     src/server.h \
@@ -513,6 +520,8 @@ SOURCES += src/buffer.cpp \
     src/client.cpp \
     src/main.cpp \
     src/protocol.cpp \
+    src/qmlconnectdlg.cpp \
+    src/qmlmixerdlg.cpp \
     src/recorder/jamcontroller.cpp \
     src/server.cpp \
     src/serverlist.cpp \
